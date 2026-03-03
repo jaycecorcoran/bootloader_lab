@@ -9,8 +9,12 @@
 .equ LSR_THR, 0x20
 
 _start:
+  clii
   xor %ax, %ax
   mov %ax, %ds
+  mov %ax, %ss
+  mov $0x7C00, %sp
+  cld
   mov $LOG_ADDR, %si
 
 next_char:
@@ -24,6 +28,11 @@ wait_uart:
   in %dx, %al
   test $LSR_THR, %al
   jz wait_uart
+
+  mov $COM1_BASE, %dx
+  mov %ah, %al
+  out %al, %dx
+  jmp next_char
 
 done:
   hlt
