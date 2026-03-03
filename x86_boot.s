@@ -9,7 +9,7 @@
 .equ LSR_THR, 0x20
 
 _start:
-  clii
+  cli
   xor %ax, %ax
   mov %ax, %ds
   mov %ax, %ss
@@ -24,7 +24,7 @@ next_char:
   mov %al, %ah
 
 wait_uart:
-  move $COM1_LSR, %dx
+  mov $COM1_LSR, %dx
   in %dx, %al
   test $LSR_THR, %al
   jz wait_uart
